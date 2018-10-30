@@ -4,6 +4,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <time.h>
+#include <math.h>
 
 int main(){
   int file = open("text.txt",O_CREAT, 0666);
@@ -12,4 +13,14 @@ int main(){
   printf("file size:%lld\n", stats.st_size);
   printf("mode(permissions):%o\n", stats.st_mode);
   printf("last time of access:%s\n", ctime(&stats.st_atime));
+  //Modify the size so it is printed out in human readable form
+  size_t size = stats.st_size;
+  char *str = malloc(256);
+  int b = size / 1024;
+  int kb = size / (int) pow(1024,3);
+  int mb = size / (int) pow(1024,6);
+  int gb = size / (int) pow(1024,9);
+  sprintf(str, "file size: %dGB, %dMB, %dKB, %dB", gb, mb, kb, b);
+  printf("%s\n", str);
+
 }
